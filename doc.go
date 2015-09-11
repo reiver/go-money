@@ -58,12 +58,12 @@ Constants
 
 Constants exist that can be used a money "literals". For example:
 
-	fiveCanadianDollars := 5 * CAD_DOLLAR
+	fiveCanadianDollars := 5 * money.CAD_DOLLAR
 
-	fiveUsDollars := 5 * USD_DOLLAR
+	fiveUsDollars := 5 * money.USD_DOLLAR
 
-	twentyCanadianCents := 20 * CAD_CENT
+	twentyCanadianCents := 20 * money.CAD_CENT
 
-	twentyUsCents := 20 * USD_CENT
+	twentyUsCents := 20 * money.USD_CENT
 */
 package money
