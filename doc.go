@@ -3,9 +3,54 @@ Package money provides a way of dealing with money in type safe way, including p
 
 Parsing
 
-	canadianMonday, err := money.ParseCAD("$12.34")
+To turn a money amount represented as a string into a money type, do something like the follow.
 
-	usMonday, err := money.ParseUSD("$12.34")
+	canadianMoney, err := money.ParseCAD("$123.45")
 
+	usMoney, err := money.ParseUSD("$123.45")
+
+
+Formatting
+
+To turn a money amount into a specific string format, do something like the following.
+
+	strCAD := canadianMoney.Format("")           // $123.45
+
+	strCAD := canadianMoney.Format("$")          // $123.45
+
+	strCAD := canadianMoney.Format("\uFE69")     // ﹩123.45
+	strCAD := canadianMoney.Format("﹩")          // ﹩123.45
+
+	strCAD := canadianMoney.Format("\uFF04")     // ＄123.45
+	strCAD := canadianMoney.Format("＄")         // ＄123.45
+
+	strCAD := canadianMoney.Format("\U0001F4B2") // 💲123.45
+	strCAD := canadianMoney.Format("💲")         // 💲123.45
+
+	strCAD := canadianMoney.Format("\u00A2")     // 123.45¢
+	strCAD := canadianMoney.Format("¢")          // 123.45¢
+
+	strCAD := canadianMoney.Format("\uFFE0")     // 12345￠
+	strCAD := canadianMoney.Format("￠")         // 12345￠
+
+
+	strUSD := usMoney.Format("")           // $123.45
+
+	strUSD := usMoney.Format("$")          // $123.45
+
+	strUSD := usMoney.Format("\uFE69")     // ﹩123.45
+	strUSD := usMoney.Format("﹩")          // ﹩123.45
+
+	strUSD := usMoney.Format("\uFF04")     // ＄123.45
+	strUSD := usMoney.Format("＄")         // ＄123.45
+
+	strUSD := usMoney.Format("\U0001F4B2") // 💲123.45
+	strUSD := usMoney.Format("💲")         // 💲123.45
+
+	strUSD := usMoney.Format("\u00A2")     // 12345¢
+	strUSD := usMoney.Format("¢")          // 12345¢
+
+	strUSD := usMoney.Format("\uFFE0")     // 12345￠
+	strUSD := usMoney.Format("￠")         // 12345￠
 */
 package httplog
