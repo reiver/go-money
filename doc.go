@@ -1,6 +1,9 @@
 /*
 Package money provides a way of dealing with money in type safe way, including parsing from strings.
 
+So, for example, the type of U.S. Dollars is money.USD and the type for Canadian Dollars is money.CAD.
+These  two types are completely different, and cannot be assigned to each other.
+
 Parsing
 
 To turn a money amount represented as a string into a money type, do something like the follow.
