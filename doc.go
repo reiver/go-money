@@ -52,5 +52,18 @@ To turn a money amount into a specific string format, do something like the foll
 
 	strUSD := usMoney.Format("\uFFE0")     // 12345￠
 	strUSD := usMoney.Format("￠")         // 12345￠
+
+
+Constants
+
+Constants exist that can be used a money "literals". For example:
+
+	fiveCanadianDollars := 5 * CAD_DOLLAR
+
+	fiveUsDollars := 5 * USD_DOLLAR
+
+	twentyCanadianCents := 20 * CAD_CENT
+
+	twentyUsCents := 20 * USD_CENT
 */
 package money
