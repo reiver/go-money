@@ -53,4 +53,4 @@ To turn a money amount into a specific string format, do something like the foll
 	strUSD := usMoney.Format("\uFFE0")     // 12345￠
 	strUSD := usMoney.Format("￠")         // 12345￠
 */
-package httplog
+package money
