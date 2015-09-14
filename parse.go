@@ -27,6 +27,12 @@ func parseDollarsAndCents(str string) (int64, error) {
 	// Trim leading and ending whitespace.
 	str = strings.TrimSpace(str)
 
+	// If resulting string is empty, return an error.
+	if "" == str {
+//@TODO: Make better error.
+		return 0, errors.New("Nothing in the string.")
+	}
+
 	// Convert to runes.
 	runes := []rune(str)
 
