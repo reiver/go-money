@@ -107,7 +107,7 @@ func TestParseCAD(t *testing.T) {
 
 		actual, err := ParseCAD(test.String)
 		if nil != err {
-			t.Errorf("For test #%d, Received unexpected error: %v", testNumber, err)
+			t.Errorf("For test #%d, received unexpected error: %v", testNumber, err)
 		}
 
 		if expected := test.Expected; expected != actual {
@@ -218,7 +218,7 @@ func TestParseUSD(t *testing.T) {
 
 		actual, err := ParseUSD(test.String)
 		if nil != err {
-			t.Errorf("For test #%d, Received unexpected error: %v", testNumber, err)
+			t.Errorf("For test #%d, received unexpected error: %v", testNumber, err)
 		}
 
 		if expected := test.Expected; expected != actual {
