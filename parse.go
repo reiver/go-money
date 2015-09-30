@@ -3,6 +3,7 @@ package money
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -36,6 +37,23 @@ func parseDollarsAndCents(str string) (int64, error) {
 	// Convert to runes.
 	runes := []rune(str)
 
+	// Check if it begins with a negative symbol.
+	// (I.e., a hyphen.)
+	//
+	// If it does have a negative symbol we
+	// truncate the rune slice by removing
+	// the first character (i.e., removing
+	// the negative symbol).
+	hasNegativeSymbol := false
+	if '-' == runes[0] {
+		hasNegativeSymbol = true
+		runes = runes[1:]
+	}
+	if 1 > len(runes) {
+//@TODO: Make better error.
+		return 0, fmt.Errorf("Parse error on %q.", str)
+	}
+
 	// Check if it begins with a dollar symbol
 	// or ends with a cents symbol.
 	hasDollarSymbol := false
@@ -47,24 +65,37 @@ func parseDollarsAndCents(str string) (int64, error) {
 	'\uFF04',     // full-width dollar sign
 	'\U0001F4B2': // heavy dollar sign
 		hasDollarSymbol = true
+		runes = runes[1:]
 	}
 	if !hasDollarSymbol {
 		switch runes[0] {
 		case '\u00A2', // cent sign
 		     '\uFFE0': // full-width cent sign
 			hasCentsSymbol = true
+			runes = runes[:len(runes)-1]
 		}
 	}
-
+	if 1 > len(runes) {
+//@TODO: Make better error.
+		return 0, fmt.Errorf("Parse error on %q.", str)
+	}
 
 	switch {
 	case hasDollarSymbol:
-		return parseDollars(runes[1:])
+		cents, err := parseDollars(runes)
+		if hasNegativeSymbol {
+			cents = -1 * cents
+		}
+		return cents, err
 	case hasCentsSymbol:
-		return parseCents(runes[:len(runes)-1])
+		cents, err := parseCents(runes)
+		if hasNegativeSymbol {
+			cents = -1 * cents
+		}
+		return cents, err
 	default:
 //@TODO: Make better error.
-		return 0, errors.New("Parse error.")
+		return 0, fmt.Errorf("Parse error on %q.", str)
 	}
 }
 

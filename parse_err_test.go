@@ -15,12 +15,74 @@ func generateTests() []struct{String string} {
 
 	// We want to make sure we test the empty string!
 	tests := []struct{
-		String   string
+		String string
 	}{
 		{
-			String:   "",
+			String: "",
 		},
 	}
+
+	// Create some specific tests, that should generate errors.
+	tests = append(tests, []struct{
+		String string
+	}{
+		{
+			String: "-",
+		},
+		{
+			String: "--",
+		},
+		{
+			String: "---",
+		},
+
+		{
+			String:  "$", // normal dollar sign
+		},
+		{
+			String: "-$", // normal dollar sign
+		},
+
+		{
+			String:  "\uFE69", // small dollar sign
+		},
+		{
+			String: "-\uFE69", // small dollar sign
+		},
+
+		{
+			String:  "\uFF04", // full-width dollar sign
+		},
+		{
+			String: "-\uFF04", // full-width dollar sign
+		},
+
+		{
+			String:  "\U0001F4B2", // heavy dollar sign
+		},
+		{
+			String: "-\U0001F4B2", // heavy dollar sign
+		},
+
+		{
+			String:  "\u00A2", // cent sign
+		},
+		{
+			String: "-\u00A2", // cent sign
+		},
+
+		{
+			String:  "\uFFE0", // full-width cent sign
+		},
+		{
+			String: "-\uFFE0", // full-width cent sign
+		},
+
+		{
+			String:  "-$\uFE69\uFF04\U0001F4B2\u00A2\uFFE0", // normal dollar sign
+		},
+
+	}...)
 
 	// Create some tests with just white space.
 	//
