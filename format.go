@@ -62,24 +62,30 @@ func (m USD) Format(layout string) string {
 
 func formatDollarsAndCents(cents int64, layout string) string {
 
+	maybeNegative := ""
+	if 0 > cents {
+		maybeNegative = "-"
+		cents = -1 * cents // We make it positive.
+	}
+
 	centsPart := int64(cents) % 100
 	dollarsPart := (int64(cents) - centsPart) / 100
 
 	switch layout {
 	default:
-		return fmt.Sprintf("$%d.%02d",          dollarsPart, centsPart)
+		return fmt.Sprintf("%s$%d.%02d",          maybeNegative, dollarsPart, centsPart)
 	case "$":          // normal dollar sign
-		return fmt.Sprintf("$%d.%02d",          dollarsPart, centsPart)
+		return fmt.Sprintf("%s$%d.%02d",          maybeNegative, dollarsPart, centsPart)
 	case "\uFE69":     // small dollar sign
-		return fmt.Sprintf("\uFE69%d.%02d",     dollarsPart, centsPart)
+		return fmt.Sprintf("%s\uFE69%d.%02d",     maybeNegative, dollarsPart, centsPart)
 	case "\uFF04":     // full-width dollar sign
-		return fmt.Sprintf("\uFF04%d.%02d",     dollarsPart, centsPart)
+		return fmt.Sprintf("%s\uFF04%d.%02d",     maybeNegative, dollarsPart, centsPart)
 	case "\U0001F4B2": // heavy dollar sign
-		return fmt.Sprintf("\U0001F4B2%d.%02d", dollarsPart, centsPart)
+		return fmt.Sprintf("%s\U0001F4B2%d.%02d", maybeNegative, dollarsPart, centsPart)
 	case "\u00A2": // cent sign
-		return fmt.Sprintf("%d\u00A2", cents)
+		return fmt.Sprintf("%s%d\u00A2", maybeNegative, cents)
 	case "\uFFE0": // full-width cent sign
-		return fmt.Sprintf("%d\uFFE0", cents)
+		return fmt.Sprintf("%s%d\uFFE0", maybeNegative, cents)
 	}
 }
 

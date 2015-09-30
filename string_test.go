@@ -103,6 +103,36 @@ func TestStringCAD(t *testing.T) {
 
 
 		{
+			Money:    -1 * CAD_CENT,
+			Expected: "-$0.01",
+		},
+		{
+			Money:    -2 * CAD_CENT,
+			Expected: "-$0.02",
+		},
+		{
+			Money:    -3 * CAD_CENT,
+			Expected: "-$0.03",
+		},
+		{
+			Money:    -4 * CAD_CENT,
+			Expected: "-$0.04",
+		},
+		{
+			Money:    -5 * CAD_CENT,
+			Expected: "-$0.05",
+		},
+		{
+			Money:    -10 * CAD_CENT,
+			Expected: "-$0.10",
+		},
+		{
+			Money:    -12345 * CAD_CENT,
+			Expected: "-$123.45",
+		},
+
+
+		{
 			Money:    1 * CAD_DOLLAR,
 			Expected: "$1.00",
 		},
@@ -129,6 +159,36 @@ func TestStringCAD(t *testing.T) {
 		{
 			Money:    12345 * CAD_DOLLAR,
 			Expected: "$12345.00",
+		},
+
+
+		{
+			Money:    -1 * CAD_DOLLAR,
+			Expected: "-$1.00",
+		},
+		{
+			Money:    -2 * CAD_DOLLAR,
+			Expected: "-$2.00",
+		},
+		{
+			Money:    -3 * CAD_DOLLAR,
+			Expected: "-$3.00",
+		},
+		{
+			Money:    -4 * CAD_DOLLAR,
+			Expected: "-$4.00",
+		},
+		{
+			Money:    -5 * CAD_DOLLAR,
+			Expected: "-$5.00",
+		},
+		{
+			Money:    -10 * CAD_DOLLAR,
+			Expected: "-$10.00",
+		},
+		{
+			Money:    -12345 * CAD_DOLLAR,
+			Expected: "-$12345.00",
 		},
 	}
 
@@ -241,6 +301,36 @@ func TestStringUSD(t *testing.T) {
 
 
 		{
+			Money:    -1 * USD_CENT,
+			Expected: "-$0.01",
+		},
+		{
+			Money:    -2 * USD_CENT,
+			Expected: "-$0.02",
+		},
+		{
+			Money:    -3 * USD_CENT,
+			Expected: "-$0.03",
+		},
+		{
+			Money:    -4 * USD_CENT,
+			Expected: "-$0.04",
+		},
+		{
+			Money:    -5 * USD_CENT,
+			Expected: "-$0.05",
+		},
+		{
+			Money:    -10 * USD_CENT,
+			Expected: "-$0.10",
+		},
+		{
+			Money:    -12345 * USD_CENT,
+			Expected: "-$123.45",
+		},
+
+
+		{
 			Money:    1 * USD_DOLLAR,
 			Expected: "$1.00",
 		},
@@ -267,6 +357,36 @@ func TestStringUSD(t *testing.T) {
 		{
 			Money:    12345 * USD_DOLLAR,
 			Expected: "$12345.00",
+		},
+
+
+		{
+			Money:    -1 * USD_DOLLAR,
+			Expected: "-$1.00",
+		},
+		{
+			Money:    -2 * USD_DOLLAR,
+			Expected: "-$2.00",
+		},
+		{
+			Money:    -3 * USD_DOLLAR,
+			Expected: "-$3.00",
+		},
+		{
+			Money:    -4 * USD_DOLLAR,
+			Expected: "-$4.00",
+		},
+		{
+			Money:    -5 * USD_DOLLAR,
+			Expected: "-$5.00",
+		},
+		{
+			Money:    -10 * USD_DOLLAR,
+			Expected: "-$10.00",
+		},
+		{
+			Money:    -12345 * USD_DOLLAR,
+			Expected: "-$12345.00",
 		},
 	}
 
