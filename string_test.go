@@ -13,6 +13,36 @@ func TestStringCAD(t *testing.T) {
 		Expected string
 	}{
 		{
+			Money:    0 * CAD_CENT,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * CAD_NICKEL,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * CAD_DIME,
+			Expected: "$0.00",
+		},
+		{
+			Money:   0 * CAD_QUARTER,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * CAD_TWO_BITS,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * CAD_FOUR_BITS,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * CAD_DOLLAR,
+			Expected: "$0.00",
+		},
+
+
+		{
 			Money:    CAD_CENT,
 			Expected: "$0.01",
 		},
@@ -120,6 +150,36 @@ func TestStringUSD(t *testing.T) {
 		Money    USD
 		Expected string
 	}{
+		{
+			Money:    0 * USD_CENT,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_NICKEL,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_DIME,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_QUARTER,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_TWO_BITS,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_FOUR_BITS,
+			Expected: "$0.00",
+		},
+		{
+			Money:    0 * USD_DOLLAR,
+			Expected: "$0.00",
+		},
+
+
 		{
 			Money:    USD_CENT,
 			Expected: "$0.01",
