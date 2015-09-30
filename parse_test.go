@@ -13,6 +13,10 @@ func TestParseCAD(t *testing.T) {
 		Expected CAD
 	}{
 		{
+			String:   "$0",
+			Expected: 0 * CAD_DOLLAR,
+		},
+		{
 			String:   "$1",
 			Expected: 1 * CAD_DOLLAR,
 		},
@@ -47,6 +51,10 @@ func TestParseCAD(t *testing.T) {
 		{
 			String:   "$1.01",
 			Expected: (1 * CAD_DOLLAR) + (1 * CAD_CENT),
+		},
+		{
+			String:   "$0.00",
+			Expected: 0 * CAD_CENT,
 		},
 		{
 			String:   "$0.01",
@@ -124,6 +132,10 @@ func TestParseUSD(t *testing.T) {
 		Expected USD
 	}{
 		{
+			String:   "$0",
+			Expected: 0 * USD_DOLLAR,
+		},
+		{
 			String:   "$1",
 			Expected: 1 * USD_DOLLAR,
 		},
@@ -158,6 +170,10 @@ func TestParseUSD(t *testing.T) {
 		{
 			String:   "$1.01",
 			Expected: (1 * USD_DOLLAR) + (1 * USD_CENT),
+		},
+		{
+			String:   "$0.00",
+			Expected: 0 * USD_CENT,
 		},
 		{
 			String:   "$0.01",
