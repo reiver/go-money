@@ -16,7 +16,7 @@ func ParseCAD(str string) (CAD, error) {
 }
 
 
-// ParseCAD converts a string to a USD.
+// ParseUSD converts a string to a USD.
 func ParseUSD(str string) (USD, error) {
 	cents, err := parseDollarsAndCents(str)
 	return USD(cents), err
