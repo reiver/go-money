@@ -27,6 +27,29 @@ import (
 //
 // "\uFFE0" or "￠"
 //      12345￠
+//
+//
+// "-12345.67"
+//	-9876543.21
+//
+// "-12345,67"
+//	-9876543,21
+//
+// "-12,345.67"
+//	-9,876,543.21
+//
+// "-12.345,67"
+//	-9.876.543,21
+//
+//
+// "-1234567"
+//	-987654321
+//
+// "-1,234,567"
+//	-987,654,321
+//
+// "-1.234.567"
+//	-987.654.321
 func (m CAD) Format(layout string) string {
 	cents := int64(m)
 	return formatDollarsAndCents(cents, layout)
@@ -53,7 +76,29 @@ func (m CAD) Format(layout string) string {
 //
 // "\uFFE0" or "￠"
 //      12345￠
-
+//
+//
+// "-12345.67"
+//	-9876543.21
+//
+// "-12345,67"
+//	-9876543,21
+//
+// "-12,345.67"
+//	-9,876,543.21
+//
+// "-12.345,67"
+//	-9.876.543,21
+//
+//
+// "-1234567"
+//	-987654321
+//
+// "-1,234,567"
+//	-987,654,321
+//
+// "-1.234.567"
+//	-987.654.321
 func (m USD) Format(layout string) string {
 	cents := int64(m)
 	return formatDollarsAndCents(cents, layout)
@@ -86,6 +131,21 @@ func formatDollarsAndCents(cents int64, layout string) string {
 		return fmt.Sprintf("%s%d\u00A2", maybeNegative, cents)
 	case "\uFFE0": // full-width cent sign
 		return fmt.Sprintf("%s%d\uFFE0", maybeNegative, cents)
+
+	case "-12345.67":
+		return fmt.Sprintf("%s%d.%02d", maybeNegative, dollarsPart, centsPart)
+	case "-12345,67":
+		return fmt.Sprintf("%s%d,%02d", maybeNegative, dollarsPart, centsPart)
+	case "-12,345.67":
+		return fmt.Sprintf("%s%s.%02d", maybeNegative, readable(dollarsPart, ','), centsPart)
+	case "-12.345,67":
+		return fmt.Sprintf("%s%s,%02d", maybeNegative, readable(dollarsPart, '.'), centsPart)
+
+	case "-1234567":
+		return fmt.Sprintf("%s%d", maybeNegative, cents)
+        case "-1,234,567":
+		return fmt.Sprintf("%s%s", maybeNegative, readable(cents, ','))
+	case "-1.234.567":
+		return fmt.Sprintf("%s%s", maybeNegative, readable(cents, '.'))
 	}
 }
-
