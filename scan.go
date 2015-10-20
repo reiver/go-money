@@ -6,7 +6,6 @@ import (
 )
 
 
-
 // Scan is to make it so *money.CAD fits the sql.Scanner interface.
 func (m *CAD) Scan(src interface{}) error {
 	if bs, ok := src.([]byte); ok {
