@@ -103,22 +103,89 @@ func parseDollars(runes []rune) (int64, error) {
 
 	// Money is stored in cents not dollars.
 	// So if the string (which we converted to []rune elsewhere)
-	// has a decimal point (".") in it (ex: "12.34") then we
-	// deal with that situation.
+	// has a decimal point (either "." or ",") in it then we deal
+	// with that situation.
 	//
 	// So, for example:
 	//
-	//	"124.45" -> "12345"
+	//	"12345.67" -> "1234567"
 	//
-	//	"12" -> "1200"
+	//	"12345,67" -> "1234567"
+	//
+	//	"12,345.67" -> "12,34567"
+	//
+	//	"12.345,67" -> "12.34567"
+	//
+	//	"12345" -> "1234500"
 	//
 	//	"0.10" -> "010"
-	if hasDecimalPoint := 3 <= len(runes) && '.' == runes[len(runes)-3]; hasDecimalPoint {
+	//
+	//	"0,10" -> "010"
+	//
+	// After that then if the decimal point is a dot (".") then we remove comma (",") separators.
+	// Alternatively, if the decimal point is a comma (",") then we remove dot (".") separators.
+	//
+	// So, for example:
+	//
+	//	"12345.67" -> "1234567" -> "1234567"
+	//
+	//	"12345,67" -> "1234567" -> "1234567"
+	//
+	//	"12,345.67" -> "12,34567" -> "1234567"
+	//
+	//	"12.345,67" -> "12.34567" -> "12.34567"
+	//
+	//	"12345" -> "1234500" -> "1234500"
+	//
+	//	"0.10" -> "010" -> "010"
+	//
+	//	"0,10" -> "010" -> "010"
+	if hasDotDecimalPoint := 3 <= len(runes) && '.' == runes[len(runes)-3]; hasDotDecimalPoint {
 
 		i := len(runes)-3
 
 		runes = append(runes[:i], runes[i+1:]...)
+
+//@TODO: This is not the proper way to remove the separator ",".
+		for ii:=0; ii<len(runes); ii++ {
+
+			if ',' == runes[ii] {
+				runes = append(runes[:ii], runes[1+ii:]...)
+			}
+		}
+	} else if hasCommaDecimalPoint := 3 <= len(runes) && ',' == runes[len(runes)-3]; hasCommaDecimalPoint {
+
+		i := len(runes)-3
+
+		runes = append(runes[:i], runes[i+1:]...)
+
+//@TODO: This is not the proper way to remove the separator ".".
+		for ii:=0; ii<len(runes); ii++ {
+
+			if '.' == runes[ii] {
+				runes = append(runes[:ii], runes[1+ii:]...)
+			}
+		}
 	} else {
+
+		if 4 <= len(runes) && ',' == runes[len(runes)-4] {
+//@TODO: This is not the proper way to remove the separator ",".
+			for ii:=0; ii<len(runes); ii++ {
+
+				if ',' == runes[ii] {
+					runes = append(runes[:ii], runes[1+ii:]...)
+				}
+			}
+
+		} else if 4 <= len(runes) && '.' == runes[len(runes)-4] {
+//@TODO: This is not the proper way to remove the separator ".".
+			for ii:=0; ii<len(runes); ii++ {
+
+				if '.' == runes[ii] {
+					runes = append(runes[:ii], runes[1+ii:]...)
+				}
+			}
+		}
 
 		runes = append(runes, '0', '0')
 	}
