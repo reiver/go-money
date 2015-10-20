@@ -161,4 +161,20 @@ func TestUnmarshalJsonCAD(t *testing.T) {
 
 func TestUnmarshalJsonUSD(t *testing.T) {
 
+	tests := testsForUnmashalJson()
+
+	for testNumber, test := range tests {
+
+		var m USD
+
+		if err := (&m).UnmarshalJSON([]byte(test.Json)); nil != err {
+			t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err)
+			continue
+		}
+
+		if expected, actual := test.Expected, m.String(); expected != actual {
+			t.Errorf("For test #%d, expected unmarshaled JSON (i.e., money) to be %q, but actually was %q; for original JSON: %q.", testNumber, expected, actual, test.Json)
+			continue
+		}
+	}
 }
