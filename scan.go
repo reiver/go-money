@@ -2,20 +2,20 @@ package money
 
 
 import (
-	"errors"
+	"fmt"
 )
 
-
-var (
-	errCannotScanNonString = errors.New("Cannot scan non-string.")
-)
 
 
 // Scan is to make it so *money.CAD fits the sql.Scanner interface.
 func (m *CAD) Scan(src interface{}) error {
+	if bs, ok := src.([]byte); ok {
+		src = string(bs)
+	}
+
 	s, ok := src.(string)
 	if !ok {
-		return errCannotScanNonString
+		return fmt.Errorf("Cannot scan something that is not a string or []byte: %T", src)
 	}
 
 	mm, err := ParseCAD(s)
@@ -30,9 +30,13 @@ func (m *CAD) Scan(src interface{}) error {
 
 // Scan is to make it so *money.USD fits the sql.Scanner interface.
 func (m *USD) Scan(src interface{}) error {
+	if bs, ok := src.([]byte); ok {
+		src = string(bs)
+	}
+
 	s, ok := src.(string)
 	if !ok {
-		return errCannotScanNonString
+		return fmt.Errorf("Cannot scan something that is not a string or []byte: %T", src)
 	}
 
 	mm, err := ParseUSD(s)
