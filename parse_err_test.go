@@ -191,7 +191,7 @@ func TestParseCADErr(t *testing.T) {
 
 		actual, err := ParseCAD(test.String)
 		if nil == err {
-			t.Errorf("For test #%d, did not receive an error but expected one: err = %v and actual = %v", testNumber, err, actual)
+			t.Errorf("For test #%d, for %q did not receive an error but expected one: err = %v and actual = %v", testNumber, test.String, err, actual)
 		}
 	}
 }
@@ -205,7 +205,7 @@ func TestParseUSDErr(t *testing.T) {
 
 		actual, err := ParseUSD(test.String)
 		if nil == err {
-			t.Errorf("For test #%d, did not receive an error but expected one: err = %v and actual = %v", testNumber, err, actual)
+			t.Errorf("For test #%d, for %q did not receive an error but expected one: err = %v and actual = %v", testNumber, test.String, err, actual)
 		}
 	}
 }
