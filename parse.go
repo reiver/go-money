@@ -1,7 +1,10 @@
+
 package money
 
 
 import (
+	"github.com/reiver/go-numeric"
+
 	"errors"
 	"fmt"
 	"strconv"
@@ -78,6 +81,19 @@ func parseDollarsAndCents(str string) (int64, error) {
 	if 1 > len(runes) {
 //@TODO: Make better error.
 		return 0, fmt.Errorf("Parse error on %q.", str)
+	}
+
+
+//@TODO: This is a bit hacky. This was added to make it so could parse things
+//       like "84.27". I.e., no dollar or cent symbol.
+//       Make this better later.
+	if !hasDollarSymbol && !hasCentsSymbol {
+		hasDollarSymbol = true
+		for i:=0; i<len(runes); i++ {
+			if r := runes[i]; !numeric.IsNumeric(r) && '.' != r && ',' != r {
+				hasDollarSymbol = false
+			}
+		}
 	}
 
 	switch {
