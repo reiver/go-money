@@ -518,7 +518,42 @@ func TestParseCAD(t *testing.T) {
             Expected: (34 * CAD_DOLLAR) + (30 * CAD_CENT),
         },
         
-	}
+        
+        {
+            String:   ".21",
+            Expected: (2 * CAD_DIME) + (1 * CAD_CENT),
+        },
+        {
+            String:   "-.21",
+            Expected: -((2 * CAD_DIME) + (1 * CAD_CENT)),
+        },
+        {
+            String:   ".2",
+            Expected: (2 * CAD_DIME),
+        },
+        {
+            String:   "-.2",
+            Expected: -(2 * CAD_DIME),
+        },
+
+        {
+            String:   ",21",
+            Expected: (2 * CAD_DIME) + (1 * CAD_CENT),
+        },
+        {
+            String:   "-,21",
+            Expected: -((2 * CAD_DIME) + (1 * CAD_CENT)),
+        },
+        {
+            String:   ",2",
+            Expected: (2 * CAD_DIME),
+        },
+        {
+            String:   "-,2",
+            Expected: -(2 * CAD_DIME),
+        },
+        
+    }
 
 
 	for testNumber, test := range tests {
@@ -1045,6 +1080,40 @@ func TestParseUSD(t *testing.T) {
         {
             String:   "34,3",
             Expected: (34 * USD_DOLLAR) + (30 * USD_CENT),
+        },
+
+        {
+            String:   ".21",
+            Expected: (2 * USD_DIME) + (1 * USD_CENT),
+        },
+        {
+            String:   "-.21",
+            Expected: -((2 * USD_DIME) + (1 * USD_CENT)),
+        },
+        {
+            String:   ".2",
+            Expected: (2 * USD_DIME),
+        },
+        {
+            String:   "-.2",
+            Expected: -(2 * USD_DIME),
+        },
+
+        {
+            String:   ",21",
+            Expected: (2 * USD_DIME) + (1 * USD_CENT),
+        },
+        {
+            String:   "-,21",
+            Expected: -((2 * USD_DIME) + (1 * USD_CENT)),
+        },
+        {
+            String:   ",2",
+            Expected: (2 * USD_DIME),
+        },
+        {
+            String:   "-,2",
+            Expected: -(2 * USD_DIME),
         },
         
 	}
