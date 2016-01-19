@@ -182,7 +182,6 @@ func TestParseCAD(t *testing.T) {
 		},
 
 
-
 		{
 			String:   "$1.01",
 			Expected: (1 * CAD_DOLLAR) + (1 * CAD_CENT),
@@ -484,6 +483,41 @@ func TestParseCAD(t *testing.T) {
 			String:   "-862.49",
 			Expected:  -86249 * CAD_CENT,
 		},
+        
+        
+        {
+            String:   "$0.3",
+            Expected: 30 * CAD_CENT,
+        },
+        {
+            String:   "0.3",
+            Expected: 30 * CAD_CENT,
+        },
+        {
+            String:   "-$0.3",
+            Expected: -30 * CAD_CENT,
+        },
+        {
+            String:   "-0.3",
+            Expected: -30 * CAD_CENT,
+        },
+        {
+            String:   "$30.0",
+            Expected: 30 * CAD_DOLLAR,
+        },
+        {
+            String:   "-$40.0",
+            Expected: -40 * CAD_DOLLAR,
+        },
+        {
+            String:   "2342343.4",
+            Expected: (2342343 * CAD_DOLLAR) + (40 * CAD_CENT),
+        },
+        {
+            String:   "34,3",
+            Expected: (34 * CAD_DOLLAR) + (30 * CAD_CENT),
+        },
+        
 	}
 
 
@@ -979,6 +1013,40 @@ func TestParseUSD(t *testing.T) {
 			String:   "-862.49",
 			Expected:  -86249 * USD_CENT,
 		},
+        
+        {
+            String:   "$0.3",
+            Expected: 30 * USD_CENT,
+        },
+        {
+            String:   "0.3",
+            Expected: 30 * USD_CENT,
+        },
+        {
+            String:   "-$0.3",
+            Expected: -30 * USD_CENT,
+        },
+        {
+            String:   "-0.3",
+            Expected: -30 * USD_CENT,
+        },
+        {
+            String:   "$30.0",
+            Expected: 30 * USD_DOLLAR,
+        },
+        {
+            String:   "-$40.0",
+            Expected: -40 * USD_DOLLAR,
+        },
+        {
+            String:   "2342343.4",
+            Expected: (2342343 * USD_DOLLAR) + (40 * USD_CENT),
+        },
+        {
+            String:   "34,3",
+            Expected: (34 * USD_DOLLAR) + (30 * USD_CENT),
+        },
+        
 	}
 
 

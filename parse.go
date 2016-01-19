@@ -137,6 +137,8 @@ func parseDollars(runes []rune) (int64, error) {
 	//	"0.10" -> "010"
 	//
 	//	"0,10" -> "010"
+    //
+    //  "0,1"  -> "010"
 	//
 	// After that then if the decimal point is a dot (".") then we remove comma (",") separators.
 	// Alternatively, if the decimal point is a comma (",") then we remove dot (".") separators.
@@ -156,6 +158,13 @@ func parseDollars(runes []rune) (int64, error) {
 	//	"0.10" -> "010" -> "010"
 	//
 	//	"0,10" -> "010" -> "010"
+	//
+	//  "0.1" ->  "010"  -> "010"
+
+	if hasSingleDecimalPlace := 2 <= len(runes) && ('.' == runes[len(runes)-2] || ',' == runes[len(runes)-2]); hasSingleDecimalPlace {
+		runes = append(runes, '0')
+	}
+
 	if hasDotDecimalPoint := 3 <= len(runes) && '.' == runes[len(runes)-3]; hasDotDecimalPoint {
 
 		i := len(runes)-3
