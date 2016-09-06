@@ -12,6 +12,26 @@ import (
 )
 
 
+// MustParseCAD converts a string to a CAD, but panic()s if there is an error.
+func MustParseCAD(str string) CAD {
+	cad, err := ParseCAD(str)
+	if nil != err {
+		panic(err)
+	}
+
+	return cad
+}
+
+// MustParseUSD converts a string to a USD, but panic()s if there is an error.
+func MustParseUSD(str string) USD {
+	usd, err := ParseUSD(str)
+	if nil != err {
+		panic(err)
+	}
+
+	return usd
+}
+
 // ParseCAD converts a string to a CAD.
 func ParseCAD(str string) (CAD, error) {
 	cents, err := parseDollarsAndCents(str)
