@@ -15,18 +15,18 @@ func TestCAD_FloatDiv(t *testing.T) {
 		{
 			Divider:  2,
 			money:    CAD(300),
-			Expected: 150,
+			Expected: 1.5,
 		},
 
 		{
 			Divider:  3,
 			money:    CAD(5400),
-			Expected: 1800,
+			Expected: 18,
 		},
 		{
 			Divider:  3,
 			money:    CAD(-5400),
-			Expected: -1800,
+			Expected: -18,
 		},
 		{
 			Divider:  0,
@@ -41,7 +41,7 @@ func TestCAD_FloatDiv(t *testing.T) {
 		{
 			Divider:  math.MaxInt64,
 			money:    CAD(-5400),
-			Expected: -5.854691731421724e-16,
+			Expected: -5.854691731421724e-18,
 		},
 	}
 
@@ -64,18 +64,18 @@ func TestUSD_FloatDiv(t *testing.T) {
 		{
 			Divider:  2,
 			money:    USD(300),
-			Expected: 150,
+			Expected: 1.5,
 		},
 
 		{
 			Divider:  3,
 			money:    USD(5400),
-			Expected: 1800,
+			Expected: 18,
 		},
 		{
 			Divider:  3,
 			money:    USD(-5400),
-			Expected: -1800,
+			Expected: -18,
 		},
 		{
 			Divider:  0,
@@ -90,7 +90,7 @@ func TestUSD_FloatDiv(t *testing.T) {
 		{
 			Divider:  math.MaxInt64,
 			money:    USD(-5400),
-			Expected: -5.854691731421724e-16,
+			Expected: -5.854691731421724e-18,
 		},
 	}
 
