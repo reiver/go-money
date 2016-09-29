@@ -36,7 +36,7 @@ func TestCAD_SubCAD(t *testing.T) {
 
 	for _, test := range tests {
 
-		if result := test.money.SubCAD(test.money2); result != test.Expected {
+		if result := test.money.Sub(test.money2); result != test.Expected {
 			t.Logf("failed to subtract function Expected %v, Got %v", test.Expected, result)
 			t.Fail()
 		}
@@ -75,7 +75,7 @@ func TestCAD_SubUSD(t *testing.T) {
 
 	for _, test := range tests {
 
-		if result := test.money.SubUSD(test.money2); result != test.Expected {
+		if result := test.money.Sub(test.money2); result != test.Expected {
 			t.Logf("failed to subtract function Expected %v, Got %v", test.Expected, result)
 			t.Fail()
 		}

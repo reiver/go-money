@@ -47,7 +47,7 @@ func TestCAD_MulCAD(t *testing.T) {
 
 	for index, test := range tests {
 
-		if result := test.money.MulCAD(test.Multiplier); result != test.Expected {
+		if result := test.money.Mul(test.Multiplier); result != test.Expected {
 			t.Logf("failed test %v to multiplication function Expected %v, Got %v", index, test.Expected, result)
 			t.Fail()
 		}
@@ -96,7 +96,7 @@ func TestCAD_MulUSD(t *testing.T) {
 
 	for index, test := range tests {
 
-		if result := test.money.MulUSD(test.Multiplier); result != test.Expected {
+		if result := test.money.Mul(test.Multiplier); result != test.Expected {
 			t.Logf("failed test %v to multiplication function Expected %v, Got %v", index, test.Expected, result)
 			t.Fail()
 		}

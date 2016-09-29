@@ -36,7 +36,7 @@ func TestCAD_AddCAD(t *testing.T) {
 
 	for _, test := range tests {
 
-		if result := test.money.AddCAD(test.money2); result != test.Expected {
+		if result := test.money.Add(test.money2); result != test.Expected {
 			t.Logf("failed to add function Expected %v, Got %v", test.Expected, result)
 			t.Fail()
 		}
@@ -75,7 +75,7 @@ func TestCAD_AddUSD(t *testing.T) {
 
 	for _, test := range tests {
 
-		if result := test.money.AddUSD(test.money2); result != test.Expected {
+		if result := test.money.Add(test.money2); result != test.Expected {
 			t.Logf("failed to add function Expected %v, Got %v", test.Expected, result)
 			t.Fail()
 		}
