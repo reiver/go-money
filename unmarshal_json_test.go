@@ -1,142 +1,179 @@
 package money
 
-
 import (
 	"testing"
 )
 
+func testsForUnmashalJson() []struct {
+	Json     string
+	Expected string
+	Err      error
+} {
 
-func testsForUnmashalJson() []struct{Json string; Expected string} {
-
-	tests := []struct{
+	tests := []struct {
 		Json     string
 		Expected string
+		Err      error
 	}{
 		{
-			Json:    `"$0"`,
+			Json:     `"$0"`,
 			Expected: "$0.00",
-
 		},
 		{
-			Json:    `"$0.00"`,
+			Json:     `"$0.00"`,
 			Expected: "$0.00",
-
 		},
 
 		{
-			Json:    `"$1"`,
+			Json:     `"$1"`,
 			Expected: "$1.00",
-
 		},
 		{
-			Json:    `"$1.00"`,
+			Json:     `"$1.00"`,
 			Expected: "$1.00",
-
 		},
 
 		{
-			Json:    `"$123.45"`,
+			Json:     `"$123.45"`,
 			Expected: "$123.45",
 		},
 
 		{
-			Json:    `"$1234.45"`,
+			Json:     `"$1234.45"`,
 			Expected: "$1234.45",
 		},
 		{
-			Json:    `"$1,234.45"`,
+			Json:     `"$1,234.45"`,
 			Expected: "$1234.45",
 		},
 		{
-			Json:    `"$1.234,45"`,
+			Json:     `"$1.234,45"`,
 			Expected: "$1234.45",
 		},
 
-
-
 		{
-			Json:    `"$1234567"`,
+			Json:     `"$1234567"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1234567.00"`,
+			Json:     `"$1234567.00"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1234567,00"`,
+			Json:     `"$1234567,00"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1,234,567"`,
+			Json:     `"$1,234,567"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1,234,567.00"`,
+			Json:     `"$1,234,567.00"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1.234.567"`,
+			Json:     `"$1.234.567"`,
 			Expected: "$1234567.00",
 		},
 		{
-			Json:    `"$1.234.567,00"`,
+			Json:     `"$1.234.567,00"`,
 			Expected: "$1234567.00",
 		},
 
-
-
 		{
-			Json:    `"-$1234567"`,
+			Json:     `"-$1234567"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1234567.00"`,
+			Json:     `"-$1234567.00"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1234567,00"`,
+			Json:     `"-$1234567,00"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1,234,567"`,
+			Json:     `"-$1,234,567"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1,234,567.00"`,
+			Json:     `"-$1,234,567.00"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1.234.567"`,
+			Json:     `"-$1.234.567"`,
 			Expected: "-$1234567.00",
 		},
 		{
-			Json:    `"-$1.234.567,00"`,
+			Json:     `"-$1.234.567,00"`,
 			Expected: "-$1234567.00",
 		},
 
-
 		{
-			Json:    `"$1234567.89"`,
+			Json:     `"$1234567.89"`,
 			Expected: "$1234567.89",
 		},
 		{
-			Json:    `"$1234567,89"`,
+			Json:     `"$1234567,89"`,
 			Expected: "$1234567.89",
 		},
 		{
-			Json:    `"$1,234,567.89"`,
+			Json:     `"$1,234,567.89"`,
 			Expected: "$1234567.89",
 		},
 		{
-			Json:    `"$1.234.567,89"`,
+			Json:     `"$1.234.567,89"`,
 			Expected: "$1234567.89",
+		},
+		{
+			Json:     `0`,
+			Expected: "$0.00",
+		},
+		{
+			Json:     `0.00`,
+			Expected: "$0.00",
+		},
+
+		{
+			Json:     `1`,
+			Expected: "$1.00",
+		},
+		{
+			Json:     `1.00`,
+			Expected: "$1.00",
+		},
+
+		{
+			Json:     `123.45`,
+			Expected: "$123.45",
+		},
+
+		{
+			Json:     `1234.45`,
+			Expected: "$1234.45",
+		},
+		{
+			Json:     `1234.4`,
+			Expected: "$1234.40",
+		},
+		{
+			Json:     `5.5500`,
+			Expected: "$5.55",
+		},
+		{
+			Json:     `5.5503`,
+			Expected: "$1234.40",
+			Err:      ErrTrimmingNonZeroDecimalPoint,
+		},
+		{
+			Json:     `5.5550`,
+			Expected: "$1234.40",
+			Err:      ErrTrimmingNonZeroDecimalPoint,
 		},
 	}
 
-
 	return tests
 }
-
 
 func TestUnmarshalJsonCAD(t *testing.T) {
 
@@ -147,7 +184,11 @@ func TestUnmarshalJsonCAD(t *testing.T) {
 		var m CAD
 
 		if err := (&m).UnmarshalJSON([]byte(test.Json)); nil != err {
-			t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err)
+
+			if err != test.Err {
+				t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err.Error())
+			}
+
 			continue
 		}
 
@@ -156,8 +197,8 @@ func TestUnmarshalJsonCAD(t *testing.T) {
 			continue
 		}
 	}
-}
 
+}
 
 func TestUnmarshalJsonUSD(t *testing.T) {
 
@@ -168,7 +209,9 @@ func TestUnmarshalJsonUSD(t *testing.T) {
 		var m USD
 
 		if err := (&m).UnmarshalJSON([]byte(test.Json)); nil != err {
-			t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err)
+			if err != test.Err {
+				t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err.Error())
+			}
 			continue
 		}
 
