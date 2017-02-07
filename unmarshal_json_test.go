@@ -7,11 +7,13 @@ import (
 func testsForUnmashalJson() []struct {
 	Json     string
 	Expected string
+	Err      error
 } {
 
 	tests := []struct {
 		Json     string
 		Expected string
+		Err      error
 	}{
 		{
 			Json:     `"$0"`,
@@ -154,6 +156,20 @@ func testsForUnmashalJson() []struct {
 			Json:     `1234.4`,
 			Expected: "$1234.40",
 		},
+		{
+			Json:     `5.5500`,
+			Expected: "$5.55",
+		},
+		{
+			Json:     `5.5503`,
+			Expected: "$1234.40",
+			Err:      ErrTrimmingNonZeroDecimalPoint,
+		},
+		{
+			Json:     `5.5550`,
+			Expected: "$1234.40",
+			Err:      ErrTrimmingNonZeroDecimalPoint,
+		},
 	}
 
 	return tests
@@ -168,7 +184,11 @@ func TestUnmarshalJsonCAD(t *testing.T) {
 		var m CAD
 
 		if err := (&m).UnmarshalJSON([]byte(test.Json)); nil != err {
-			t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err)
+
+			if err != test.Err {
+				t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err.Error())
+			}
+
 			continue
 		}
 
@@ -189,7 +209,9 @@ func TestUnmarshalJsonUSD(t *testing.T) {
 		var m USD
 
 		if err := (&m).UnmarshalJSON([]byte(test.Json)); nil != err {
-			t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err)
+			if err != test.Err {
+				t.Errorf("For test #%d, did not expect an error after passing JSON data %q, but got one: %v", testNumber, test.Json, err.Error())
+			}
 			continue
 		}
 

@@ -2,8 +2,11 @@ package money
 
 import (
 	"encoding/json"
+	"github.com/travis/errors"
 	"strings"
 )
+
+var ErrTrimmingNonZeroDecimalPoint = errors.New("trimming non zero decimal point")
 
 // UnmarshalJSON is to make it so money.CAD fits the json.Marshaler interface.
 func (m *CAD) UnmarshalJSON(src []byte) error {
@@ -17,7 +20,10 @@ func (m *CAD) UnmarshalJSON(src []byte) error {
 				return err
 			}
 
-			s = trimDecimalPoints(n.String())
+			s, err = trimDecimalPoints(n.String())
+			if nil != err {
+				return err
+			}
 
 		default:
 			return err
@@ -42,7 +48,10 @@ func (m *USD) UnmarshalJSON(src []byte) error {
 			if err := json.Unmarshal(src, &n); nil != err {
 				return err
 			}
-			s = trimDecimalPoints(n.String())
+			s, err = trimDecimalPoints(n.String())
+			if nil != err {
+				return err
+			}
 
 		default:
 			return err
@@ -56,18 +65,25 @@ func (m *USD) UnmarshalJSON(src []byte) error {
 	return nil
 }
 
-func trimDecimalPoints(s string) string {
+func trimDecimalPoints(s string) (string, error) {
 
 	if strings.Contains(s, ".") == false {
-		return s
+		return s, nil
 	}
 
-	index := strings.Index(s, ".00")
+	index := strings.Index(s, ".")
 
-	if index == -1 {
-		return s
+	if len(s) < index+3 {
+		return s, nil
 	}
 
-	return s[0 : index+3]
+	//check that all of the decimal points after 2 places are  zeros
+	for i := index + 3; i < len(s); i++ {
+		if s[i] != '0' {
+			return "", ErrTrimmingNonZeroDecimalPoint
+		}
+
+	}
+	return s[0 : index+3], nil
 
 }
