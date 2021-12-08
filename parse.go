@@ -1,6 +1,4 @@
-
 package money
-
 
 import (
 	"github.com/reiver/go-numeric"
@@ -10,7 +8,6 @@ import (
 	"strconv"
 	"strings"
 )
-
 
 // MustParseCAD converts a string to a CAD, but panic()s if there is an error.
 func MustParseCAD(str string) CAD {
@@ -35,16 +32,23 @@ func MustParseUSD(str string) USD {
 // ParseCAD converts a string to a CAD.
 func ParseCAD(str string) (CAD, error) {
 	cents, err := parseDollarsAndCents(str)
-	return CAD(cents), err
+	if nil != err {
+		return nothingCAD(), err
+	}
+
+	return CADCents(cents), nil
 }
 
 
 // ParseUSD converts a string to a USD.
 func ParseUSD(str string) (USD, error) {
 	cents, err := parseDollarsAndCents(str)
-	return USD(cents), err
-}
+	if nil != err {
+		return nothingUSD(), err
+	}
 
+	return USDCents(cents), nil
+}
 
 func parseDollarsAndCents(str string) (int64, error) {
 

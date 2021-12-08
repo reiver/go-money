@@ -1,1133 +1,1153 @@
-package money
-
+package money_test
 
 import (
+	"github.com/reiver/go-money"
+
 	"testing"
 )
-
 
 func TestParseCAD(t *testing.T) {
 
 	tests := []struct{
 		String   string
-		Expected CAD
+		Expected money.CAD
 	}{
 		{
 			String:   "$0",
-			Expected: 0 * CAD_DOLLAR,
+			Expected: money.CADDollars(0),
 		},
 		{
 			String:   "0",
-			Expected: 0 * CAD_DOLLAR,
+			Expected: money.CADDollars(0),
 		},
 		{
 			String:   "-$0",
-			Expected: 0 * CAD_DOLLAR,
+			Expected: money.CADDollars(0),
 		},
 		{
 			String:   "-0",
-			Expected: 0 * CAD_DOLLAR,
+			Expected: money.CADDollars(0),
 		},
 
 
 
 		{
 			String:   "$1",
-			Expected: 1 * CAD_DOLLAR,
+			Expected: money.CADDollars(1),
 		},
 		{
 			String:   "1",
-			Expected: 1 * CAD_DOLLAR,
+			Expected: money.CADDollars(1),
 		},
 		{
 			String:   "-$1",
-			Expected: -1 * CAD_DOLLAR,
+			Expected: money.CADDollars(-1),
 		},
 		{
 			String:   "-1",
-			Expected: -1 * CAD_DOLLAR,
+			Expected: money.CADDollars(-1),
 		},
 
 
 
 		{
 			String:   "$2",
-			Expected: 2 * CAD_DOLLAR,
+			Expected: money.CADDollars(2),
 		},
 		{
 			String:   "2",
-			Expected: 2 * CAD_DOLLAR,
+			Expected: money.CADDollars(2),
 		},
 		{
 			String:   "-$2",
-			Expected: -2 * CAD_DOLLAR,
+			Expected: money.CADDollars(-2),
 		},
 		{
 			String:   "-2",
-			Expected: -2 * CAD_DOLLAR,
+			Expected: money.CADDollars(-2),
 		},
 
 
 
 		{
 			String:   "$3",
-			Expected: 3 * CAD_DOLLAR,
+			Expected: money.CADDollars(3),
 		},
 		{
 			String:   "3",
-			Expected: 3 * CAD_DOLLAR,
+			Expected: money.CADDollars(3),
 		},
 		{
 			String:   "-$3",
-			Expected: -3 * CAD_DOLLAR,
+			Expected: money.CADDollars(-3),
 		},
 		{
 			String:   "-3",
-			Expected: -3 * CAD_DOLLAR,
+			Expected: money.CADDollars(-3),
 		},
 
 
 
 		{
 			String:   "$4",
-			Expected: 4 * CAD_DOLLAR,
+			Expected: money.CADDollars(4),
 		},
 		{
 			String:   "4",
-			Expected: 4 * CAD_DOLLAR,
+			Expected: money.CADDollars(4),
 		},
 		{
 			String:   "-$4",
-			Expected: -4 * CAD_DOLLAR,
+			Expected: money.CADDollars(-4),
 		},
 		{
 			String:   "-4",
-			Expected: -4 * CAD_DOLLAR,
+			Expected: money.CADDollars(-4),
 		},
 
 
 
 		{
 			String:   "$5",
-			Expected: 5 * CAD_DOLLAR,
+			Expected: money.CADDollars(5),
 		},
 		{
 			String:   "5",
-			Expected: 5 * CAD_DOLLAR,
+			Expected: money.CADDollars(5),
 		},
 		{
 			String:   "-$5",
-			Expected: -5 * CAD_DOLLAR,
+			Expected: money.CADDollars(-5),
 		},
 		{
 			String:   "-5",
-			Expected: -5 * CAD_DOLLAR,
+			Expected: money.CADDollars(-5),
 		},
 
 
 
 		{
 			String:   "$10",
-			Expected: 10 * CAD_DOLLAR,
+			Expected: money.CADDollars(10),
 		},
 		{
 			String:   "10",
-			Expected: 10 * CAD_DOLLAR,
+			Expected: money.CADDollars(10),
 		},
 		{
 			String:   "-$10",
-			Expected: -10 * CAD_DOLLAR,
+			Expected: money.CADDollars(-10),
 		},
 		{
 			String:   "-10",
-			Expected: -10 * CAD_DOLLAR,
+			Expected: money.CADDollars(-10),
 		},
 
 
 
 		{
 			String:   "$12345",
-			Expected: 12345 * CAD_DOLLAR,
+			Expected: money.CADDollars(12345),
 		},
 		{
 			String:   "12345",
-			Expected: 12345 * CAD_DOLLAR,
+			Expected: money.CADDollars(12345),
 		},
 		{
 			String:   "-$12345",
-			Expected: -12345 * CAD_DOLLAR,
+			Expected: money.CADDollars(-12345),
 		},
 		{
 			String:   "-12345",
-			Expected: -12345 * CAD_DOLLAR,
+			Expected: money.CADDollars(-12345),
 		},
 
 
 
 		{
 			String:   "$12.34",
-			Expected: (12 * CAD_DOLLAR) + (34 * CAD_CENT),
+			Expected: money.CADCanonicalForm(12,34),
 		},
 		{
 			String:   "12.34",
-			Expected: (12 * CAD_DOLLAR) + (34 * CAD_CENT),
+			Expected: money.CADCanonicalForm(12,34),
 		},
 		{
 			String:   "-$12.34",
-			Expected: (-12 * CAD_DOLLAR) + (-34 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-12,-34),
 		},
 		{
 			String:   "-12.34",
-			Expected: (-12 * CAD_DOLLAR) + (-34 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-12,-34),
 		},
 
 
 		{
 			String:   "$1.01",
-			Expected: (1 * CAD_DOLLAR) + (1 * CAD_CENT),
+			Expected: money.CADCanonicalForm(1,1),
 		},
 		{
 			String:   "1.01",
-			Expected: (1 * CAD_DOLLAR) + (1 * CAD_CENT),
+			Expected: money.CADCanonicalForm(1,1),
 		},
 		{
 			String:   "-$1.01",
-			Expected: (-1 * CAD_DOLLAR) + (-1 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-1,-1),
 		},
 		{
 			String:   "-1.01",
-			Expected: (-1 * CAD_DOLLAR) + (-1 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-1,-1),
 		},
 
 
 
 		{
 			String:   "$0.00",
-			Expected: 0 * CAD_CENT,
+			Expected: money.CADCents(0),
 		},
 		{
 			String:   "0.00",
-			Expected: 0 * CAD_CENT,
+			Expected: money.CADCents(0),
 		},
 		{
 			String:   "-$0.00",
-			Expected: 0 * CAD_CENT,
+			Expected: money.CADCents(0),
 		},
 		{
 			String:   "-0.00",
-			Expected: 0 * CAD_CENT,
+			Expected: money.CADCents(0),
 		},
 
 
 
 		{
 			String:   "$0.01",
-			Expected: 1 * CAD_CENT,
+			Expected: money.CADCents(1),
 		},
 		{
 			String:   "0.01",
-			Expected: 1 * CAD_CENT,
+			Expected: money.CADCents(1),
 		},
 		{
 			String:   "-$0.01",
-			Expected: -1 * CAD_CENT,
+			Expected: money.CADCents(-1),
 		},
 		{
 			String:   "-0.01",
-			Expected: -1 * CAD_CENT,
+			Expected: money.CADCents(-1),
 		},
 
 
 
 		{
 			String:   "$0.02",
-			Expected: 2 * CAD_CENT,
+			Expected: money.CADCents(2),
 		},
 		{
 			String:   "0.02",
-			Expected: 2 * CAD_CENT,
+			Expected: money.CADCents(2),
 		},
 		{
 			String:   "-$0.02",
-			Expected: -2 * CAD_CENT,
+			Expected: money.CADCents(-2),
 		},
 		{
 			String:   "-0.02",
-			Expected: -2 * CAD_CENT,
+			Expected: money.CADCents(-2),
 		},
 
 
 
 		{
 			String:   "$0.03",
-			Expected: 3 * CAD_CENT,
+			Expected: money.CADCents(3),
 		},
 		{
 			String:   "0.03",
-			Expected: 3 * CAD_CENT,
+			Expected: money.CADCents(3),
 		},
 		{
 			String:   "-$0.03",
-			Expected: -3 * CAD_CENT,
+			Expected: money.CADCents(-3),
 		},
 		{
 			String:   "-0.03",
-			Expected: -3 * CAD_CENT,
+			Expected: money.CADCents(-3),
 		},
 
 
 
 		{
 			String:   "$0.04",
-			Expected: 4 * CAD_CENT,
+			Expected: money.CADCents(4),
 		},
 		{
 			String:   "0.04",
-			Expected: 4 * CAD_CENT,
+			Expected: money.CADCents(4),
 		},
 		{
 			String:   "-$0.04",
-			Expected: -4 * CAD_CENT,
+			Expected: money.CADCents(-4),
 		},
 		{
 			String:   "-0.04",
-			Expected: -4 * CAD_CENT,
+			Expected: money.CADCents(-4),
 		},
 
 
 
 		{
 			String:   "$0.05",
-			Expected: 5 * CAD_CENT,
+			Expected: money.CADCents(5),
 		},
 		{
 			String:   "0.05",
-			Expected: 5 * CAD_CENT,
+			Expected: money.CADCents(5),
 		},
 		{
 			String:   "-$0.05",
-			Expected: -5 * CAD_CENT,
+			Expected: money.CADCents(-5),
 		},
 		{
 			String:   "-0.05",
-			Expected: -5 * CAD_CENT,
+			Expected: money.CADCents(-5),
 		},
 
 
 
 		{
 			String:   "$0.10",
-			Expected: 10 * CAD_CENT,
+			Expected: money.CADCents(10),
 		},
 		{
 			String:   "0.10",
-			Expected: 10 * CAD_CENT,
+			Expected: money.CADCents(10),
 		},
 		{
 			String:   "-$0.10",
-			Expected: -10 * CAD_CENT,
+			Expected: money.CADCents(-10),
 		},
 		{
 			String:   "-0.10",
-			Expected: -10 * CAD_CENT,
+			Expected: money.CADCents(-10),
 		},
 
 
 
 		{
 			String:   "$123.45",
-			Expected: (123 * CAD_DOLLAR) + (45 * CAD_CENT),
+			Expected: money.CADCanonicalForm(123,45),
 		},
 		{
 			String:   "123.45",
-			Expected: (123 * CAD_DOLLAR) + (45 * CAD_CENT),
+			Expected: money.CADCanonicalForm(123,45),
 		},
 		{
 			String:   "-$123.45",
-			Expected: (-123 * CAD_DOLLAR) + (-45 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-123,-45),
 		},
 		{
 			String:   "-123.45",
-			Expected: (-123 * CAD_DOLLAR) + (-45 * CAD_CENT),
+			Expected: money.CADCanonicalForm(-123,-45),
 		},
 
 
 
 		{
 			String:   "$1.00",
-			Expected: 1 * CAD_DOLLAR,
+			Expected: money.CADDollars(1),
 		},
 		{
 			String:   "1.00",
-			Expected: 1 * CAD_DOLLAR,
+			Expected: money.CADDollars(1),
 		},
 		{
 			String:   "-$1.00",
-			Expected: -1 * CAD_DOLLAR,
+			Expected: money.CADDollars(-1),
 		},
 		{
 			String:   "-1.00",
-			Expected: -1 * CAD_DOLLAR,
+			Expected: money.CADDollars(-1),
 		},
 
 
 
 		{
 			String:   "$2.00",
-			Expected: 2 * CAD_DOLLAR,
+			Expected: money.CADDollars(2),
 		},
 		{
 			String:   "2.00",
-			Expected: 2 * CAD_DOLLAR,
+			Expected: money.CADDollars(2),
 		},
 		{
 			String:   "-$2.00",
-			Expected: -2 * CAD_DOLLAR,
+			Expected: money.CADDollars(-2),
 		},
 		{
 			String:   "-2.00",
-			Expected: -2 * CAD_DOLLAR,
+			Expected: money.CADDollars(-2),
 		},
 
 
 
 		{
 			String:   "$3.00",
-			Expected: 3 * CAD_DOLLAR,
+			Expected: money.CADDollars(3),
 		},
 		{
 			String:   "3.00",
-			Expected: 3 * CAD_DOLLAR,
+			Expected: money.CADDollars(3),
 		},
 		{
 			String:   "-$3.00",
-			Expected: -3 * CAD_DOLLAR,
+			Expected: money.CADDollars(-3),
 		},
 		{
 			String:   "-3.00",
-			Expected: -3 * CAD_DOLLAR,
+			Expected: money.CADDollars(-3),
 		},
 
 
 
 		{
 			String:   "$4.00",
-			Expected: 4 * CAD_DOLLAR,
+			Expected: money.CADDollars(4),
 		},
 		{
 			String:   "4.00",
-			Expected: 4 * CAD_DOLLAR,
+			Expected: money.CADDollars(4),
 		},
 		{
 			String:   "-$4.00",
-			Expected: -4 * CAD_DOLLAR,
+			Expected: money.CADDollars(-4),
 		},
 		{
 			String:   "-4.00",
-			Expected: -4 * CAD_DOLLAR,
+			Expected: money.CADDollars(-4),
 		},
 
 
 
 		{
 			String:   "$5.00",
-			Expected: 5 * CAD_DOLLAR,
+			Expected: money.CADDollars(5),
 		},
 		{
 			String:   "5.00",
-			Expected: 5 * CAD_DOLLAR,
+			Expected: money.CADDollars(5),
 		},
 		{
 			String:   "-$5.00",
-			Expected: -5 * CAD_DOLLAR,
+			Expected: money.CADDollars(-5),
 		},
 		{
 			String:   "-5.00",
-			Expected: -5 * CAD_DOLLAR,
+			Expected: money.CADDollars(-5),
 		},
 
 
 
 		{
 			String:   "$10.00",
-			Expected: 10 * CAD_DOLLAR,
+			Expected: money.CADDollars(10),
 		},
 		{
 			String:   "10.00",
-			Expected: 10 * CAD_DOLLAR,
+			Expected: money.CADDollars(10),
 		},
 		{
 			String:   "-$10.00",
-			Expected: -10 * CAD_DOLLAR,
+			Expected: money.CADDollars(-10),
 		},
 		{
 			String:   "-10.00",
-			Expected: -10 * CAD_DOLLAR,
+			Expected: money.CADDollars(-10),
 		},
 
 
 
 		{
 			String:   "$862.49",
-			Expected:  86249 * CAD_CENT,
+			Expected: money.CADCanonicalForm(862,49),
 		},
 		{
 			String:   "862.49",
-			Expected:  86249 * CAD_CENT,
+			Expected: money.CADCanonicalForm(862,49),
 		},
 		{
 			String:   "-$862.49",
-			Expected:  -86249 * CAD_CENT,
+			Expected: money.CADCanonicalForm(-862,-49),
 		},
 		{
 			String:   "-862.49",
-			Expected:  -86249 * CAD_CENT,
+			Expected: money.CADCanonicalForm(-862,-49),
 		},
-        
-        
-        {
-            String:   "$0.3",
-            Expected: 30 * CAD_CENT,
-        },
-        {
-            String:   "0.3",
-            Expected: 30 * CAD_CENT,
-        },
-        {
-            String:   "-$0.3",
-            Expected: -30 * CAD_CENT,
-        },
-        {
-            String:   "-0.3",
-            Expected: -30 * CAD_CENT,
-        },
-        {
-            String:   "$30.0",
-            Expected: 30 * CAD_DOLLAR,
-        },
-        {
-            String:   "-$40.0",
-            Expected: -40 * CAD_DOLLAR,
-        },
-        {
-            String:   "2342343.4",
-            Expected: (2342343 * CAD_DOLLAR) + (40 * CAD_CENT),
-        },
-        {
-            String:   "34,3",
-            Expected: (34 * CAD_DOLLAR) + (30 * CAD_CENT),
-        },
-        
-        
-        {
-            String:   ".21",
-            Expected: (2 * CAD_DIME) + (1 * CAD_CENT),
-        },
-        {
-            String:   "-.21",
-            Expected: -((2 * CAD_DIME) + (1 * CAD_CENT)),
-        },
-        {
-            String:   ".2",
-            Expected: (2 * CAD_DIME),
-        },
-        {
-            String:   "-.2",
-            Expected: -(2 * CAD_DIME),
-        },
 
-        {
-            String:   ",21",
-            Expected: (2 * CAD_DIME) + (1 * CAD_CENT),
-        },
-        {
-            String:   "-,21",
-            Expected: -((2 * CAD_DIME) + (1 * CAD_CENT)),
-        },
-        {
-            String:   ",2",
-            Expected: (2 * CAD_DIME),
-        },
-        {
-            String:   "-,2",
-            Expected: -(2 * CAD_DIME),
-        },
-        
-    }
 
+
+		{
+			String:   "$0.3",
+			Expected: money.CADCents(30),
+		},
+		{
+			String:   "0.3",
+			Expected: money.CADCents(30),
+		},
+		{
+			String:   "-$0.3",
+			Expected: money.CADCents(-30),
+		},
+		{
+			String:   "-0.3",
+			Expected: money.CADCents(-30),
+		},
+
+
+
+		{
+			String:   "$30.0",
+			Expected: money.CADDollars(30),
+		},
+		{
+			String:   "-$40.0",
+			Expected: money.CADDollars(-40),
+		},
+		{
+			String:   "2342343.4",
+			Expected: money.CADCanonicalForm(2342343,40),
+		},
+		{
+			String:   "34,3",
+			Expected: money.CADCanonicalForm(34,30),
+		},
+
+
+
+		{
+			String:   ".21",
+			Expected: money.CADCents(21),
+		},
+		{
+			String:   "-.21",
+			Expected: money.CADCents(-21),
+		},
+		{
+			String:   ".2",
+			Expected: money.CADCents(20),
+		},
+		{
+			String:   "-.2",
+			Expected: money.CADCents(-20),
+		},
+
+
+
+		{
+			String:   ",21",
+			Expected: money.CADCents(21),
+		},
+		{
+			String:   "-,21",
+			Expected: money.CADCents(-21),
+		},
+		{
+			String:   ",2",
+			Expected: money.CADCents(20),
+		},
+		{
+			String:   "-,2",
+			Expected: money.CADCents(-20),
+		},
+	}
 
 	for testNumber, test := range tests {
 
-		actual, err := ParseCAD(test.String)
+		actual, err := money.ParseCAD(test.String)
 		if nil != err {
 			t.Errorf("For test #%d, received unexpected error: %v", testNumber, err)
+			continue
 		}
 
 		if expected := test.Expected; expected != actual {
-			t.Errorf("For test #%d, parsed %q, expected %q but actually got %q.", testNumber, test.String, expected, actual)
+			t.Errorf("For test #%d, the actual value, from parsing, is not what was expected.", testNumber)
+			t.Logf("STRING: %q", test.String)
+			t.Logf("EXPECTED: %q (%#v)", expected, expected)
+			t.Logf("ACTUAL:   %q (%#v)", actual, actual)
+			continue
 		}
 	}
 }
-
 
 func TestParseUSD(t *testing.T) {
 
 	tests := []struct{
 		String   string
-		Expected USD
+		Expected money.USD
 	}{
 		{
 			String:   "$0",
-			Expected: 0 * USD_DOLLAR,
+			Expected: money.USDDollars(0),
 		},
 		{
 			String:   "0",
-			Expected: 0 * USD_DOLLAR,
+			Expected: money.USDDollars(0),
 		},
 		{
 			String:   "-$0",
-			Expected: 0 * USD_DOLLAR,
+			Expected: money.USDDollars(0),
 		},
 		{
 			String:   "-0",
-			Expected: 0 * USD_DOLLAR,
+			Expected: money.USDDollars(0),
 		},
 
 
 
 		{
 			String:   "$1",
-			Expected: 1 * USD_DOLLAR,
+			Expected: money.USDDollars(1),
 		},
 		{
 			String:   "1",
-			Expected: 1 * USD_DOLLAR,
+			Expected: money.USDDollars(1),
 		},
 		{
 			String:   "-$1",
-			Expected: -1 * USD_DOLLAR,
+			Expected: money.USDDollars(-1),
 		},
 		{
 			String:   "-1",
-			Expected: -1 * USD_DOLLAR,
+			Expected: money.USDDollars(-1),
 		},
 
 
 
 		{
 			String:   "$2",
-			Expected: 2 * USD_DOLLAR,
+			Expected: money.USDDollars(2),
 		},
 		{
 			String:   "2",
-			Expected: 2 * USD_DOLLAR,
+			Expected: money.USDDollars(2),
 		},
 		{
 			String:   "-$2",
-			Expected: -2 * USD_DOLLAR,
+			Expected: money.USDDollars(-2),
 		},
 		{
 			String:   "-2",
-			Expected: -2 * USD_DOLLAR,
+			Expected: money.USDDollars(-2),
 		},
 
 
 
 		{
 			String:   "$3",
-			Expected: 3 * USD_DOLLAR,
+			Expected: money.USDDollars(3),
 		},
 		{
 			String:   "3",
-			Expected: 3 * USD_DOLLAR,
+			Expected: money.USDDollars(3),
 		},
 		{
 			String:   "-$3",
-			Expected: -3 * USD_DOLLAR,
+			Expected: money.USDDollars(-3),
 		},
 		{
 			String:   "-3",
-			Expected: -3 * USD_DOLLAR,
+			Expected: money.USDDollars(-3),
 		},
 
 
 
 		{
 			String:   "$4",
-			Expected: 4 * USD_DOLLAR,
+			Expected: money.USDDollars(4),
 		},
 		{
 			String:   "4",
-			Expected: 4 * USD_DOLLAR,
+			Expected: money.USDDollars(4),
 		},
 		{
 			String:   "-$4",
-			Expected: -4 * USD_DOLLAR,
+			Expected: money.USDDollars(-4),
 		},
 		{
 			String:   "-4",
-			Expected: -4 * USD_DOLLAR,
+			Expected: money.USDDollars(-4),
 		},
 
 
 
 		{
 			String:   "$5",
-			Expected: 5 * USD_DOLLAR,
+			Expected: money.USDDollars(5),
 		},
 		{
 			String:   "5",
-			Expected: 5 * USD_DOLLAR,
+			Expected: money.USDDollars(5),
 		},
 		{
 			String:   "-$5",
-			Expected: -5 * USD_DOLLAR,
+			Expected: money.USDDollars(-5),
 		},
 		{
 			String:   "-5",
-			Expected: -5 * USD_DOLLAR,
+			Expected: money.USDDollars(-5),
 		},
 
 
 
 		{
 			String:   "$10",
-			Expected: 10 * USD_DOLLAR,
+			Expected: money.USDDollars(10),
 		},
 		{
 			String:   "10",
-			Expected: 10 * USD_DOLLAR,
+			Expected: money.USDDollars(10),
 		},
 		{
 			String:   "-$10",
-			Expected: -10 * USD_DOLLAR,
+			Expected: money.USDDollars(-10),
 		},
 		{
 			String:   "-10",
-			Expected: -10 * USD_DOLLAR,
+			Expected: money.USDDollars(-10),
 		},
 
 
 
 		{
 			String:   "$12345",
-			Expected: 12345 * USD_DOLLAR,
+			Expected: money.USDDollars(12345),
 		},
 		{
 			String:   "12345",
-			Expected: 12345 * USD_DOLLAR,
+			Expected: money.USDDollars(12345),
 		},
 		{
 			String:   "-$12345",
-			Expected: -12345 * USD_DOLLAR,
+			Expected: money.USDDollars(-12345),
 		},
 		{
 			String:   "-12345",
-			Expected: -12345 * USD_DOLLAR,
+			Expected: money.USDDollars(-12345),
 		},
 
 
 
 		{
 			String:   "$12.34",
-			Expected: (12 * USD_DOLLAR) + (34 * USD_CENT),
+			Expected: money.USDCanonicalForm(12,34),
 		},
 		{
 			String:   "12.34",
-			Expected: (12 * USD_DOLLAR) + (34 * USD_CENT),
+			Expected: money.USDCanonicalForm(12,34),
 		},
 		{
 			String:   "-$12.34",
-			Expected: (-12 * USD_DOLLAR) + (-34 * USD_CENT),
+			Expected: money.USDCanonicalForm(-12,-34),
 		},
 		{
 			String:   "-12.34",
-			Expected: (-12 * USD_DOLLAR) + (-34 * USD_CENT),
+			Expected: money.USDCanonicalForm(-12,-34),
 		},
-
 
 
 		{
 			String:   "$1.01",
-			Expected: (1 * USD_DOLLAR) + (1 * USD_CENT),
+			Expected: money.USDCanonicalForm(1,1),
 		},
 		{
 			String:   "1.01",
-			Expected: (1 * USD_DOLLAR) + (1 * USD_CENT),
+			Expected: money.USDCanonicalForm(1,1),
 		},
 		{
 			String:   "-$1.01",
-			Expected: (-1 * USD_DOLLAR) + (-1 * USD_CENT),
+			Expected: money.USDCanonicalForm(-1,-1),
 		},
 		{
 			String:   "-1.01",
-			Expected: (-1 * USD_DOLLAR) + (-1 * USD_CENT),
+			Expected: money.USDCanonicalForm(-1,-1),
 		},
 
 
 
 		{
 			String:   "$0.00",
-			Expected: 0 * USD_CENT,
+			Expected: money.USDCents(0),
 		},
 		{
 			String:   "0.00",
-			Expected: 0 * USD_CENT,
+			Expected: money.USDCents(0),
 		},
 		{
 			String:   "-$0.00",
-			Expected: -0 * USD_CENT,
+			Expected: money.USDCents(0),
 		},
 		{
 			String:   "-0.00",
-			Expected: -0 * USD_CENT,
+			Expected: money.USDCents(0),
 		},
 
 
 
 		{
 			String:   "$0.01",
-			Expected: 1 * USD_CENT,
+			Expected: money.USDCents(1),
 		},
 		{
 			String:   "0.01",
-			Expected: 1 * USD_CENT,
+			Expected: money.USDCents(1),
 		},
 		{
 			String:   "-$0.01",
-			Expected: -1 * USD_CENT,
+			Expected: money.USDCents(-1),
 		},
 		{
 			String:   "-0.01",
-			Expected: -1 * USD_CENT,
+			Expected: money.USDCents(-1),
 		},
 
 
 
 		{
 			String:   "$0.02",
-			Expected: 2 * USD_CENT,
+			Expected: money.USDCents(2),
 		},
 		{
 			String:   "0.02",
-			Expected: 2 * USD_CENT,
+			Expected: money.USDCents(2),
 		},
 		{
 			String:   "-$0.02",
-			Expected: -2 * USD_CENT,
+			Expected: money.USDCents(-2),
 		},
 		{
 			String:   "-0.02",
-			Expected: -2 * USD_CENT,
+			Expected: money.USDCents(-2),
 		},
 
 
 
 		{
 			String:   "$0.03",
-			Expected: 3 * USD_CENT,
+			Expected: money.USDCents(3),
 		},
 		{
 			String:   "0.03",
-			Expected: 3 * USD_CENT,
+			Expected: money.USDCents(3),
 		},
 		{
 			String:   "-$0.03",
-			Expected: -3 * USD_CENT,
+			Expected: money.USDCents(-3),
 		},
 		{
 			String:   "-0.03",
-			Expected: -3 * USD_CENT,
+			Expected: money.USDCents(-3),
 		},
 
 
 
 		{
 			String:   "$0.04",
-			Expected: 4 * USD_CENT,
+			Expected: money.USDCents(4),
 		},
 		{
 			String:   "0.04",
-			Expected: 4 * USD_CENT,
+			Expected: money.USDCents(4),
 		},
 		{
 			String:   "-$0.04",
-			Expected: -4 * USD_CENT,
+			Expected: money.USDCents(-4),
 		},
 		{
 			String:   "-0.04",
-			Expected: -4 * USD_CENT,
+			Expected: money.USDCents(-4),
 		},
 
 
 
 		{
 			String:   "$0.05",
-			Expected: 5 * USD_CENT,
+			Expected: money.USDCents(5),
 		},
 		{
 			String:   "0.05",
-			Expected: 5 * USD_CENT,
+			Expected: money.USDCents(5),
 		},
 		{
 			String:   "-$0.05",
-			Expected: -5 * USD_CENT,
+			Expected: money.USDCents(-5),
 		},
 		{
 			String:   "-0.05",
-			Expected: -5 * USD_CENT,
+			Expected: money.USDCents(-5),
 		},
 
 
 
 		{
 			String:   "$0.10",
-			Expected: 10 * USD_CENT,
+			Expected: money.USDCents(10),
 		},
 		{
 			String:   "0.10",
-			Expected: 10 * USD_CENT,
+			Expected: money.USDCents(10),
 		},
 		{
 			String:   "-$0.10",
-			Expected: -10 * USD_CENT,
+			Expected: money.USDCents(-10),
 		},
 		{
 			String:   "-0.10",
-			Expected: -10 * USD_CENT,
+			Expected: money.USDCents(-10),
 		},
 
 
 
 		{
 			String:   "$123.45",
-			Expected: (123 * USD_DOLLAR) + (45 * USD_CENT),
+			Expected: money.USDCanonicalForm(123,45),
 		},
 		{
 			String:   "123.45",
-			Expected: (123 * USD_DOLLAR) + (45 * USD_CENT),
+			Expected: money.USDCanonicalForm(123,45),
 		},
 		{
 			String:   "-$123.45",
-			Expected: (-123 * USD_DOLLAR) + (-45 * USD_CENT),
+			Expected: money.USDCanonicalForm(-123,-45),
 		},
 		{
 			String:   "-123.45",
-			Expected: (-123 * USD_DOLLAR) + (-45 * USD_CENT),
+			Expected: money.USDCanonicalForm(-123,-45),
 		},
 
 
 
 		{
 			String:   "$1.00",
-			Expected: 1 * USD_DOLLAR,
+			Expected: money.USDDollars(1),
 		},
 		{
 			String:   "1.00",
-			Expected: 1 * USD_DOLLAR,
+			Expected: money.USDDollars(1),
 		},
 		{
 			String:   "-$1.00",
-			Expected: -1 * USD_DOLLAR,
+			Expected: money.USDDollars(-1),
 		},
 		{
 			String:   "-1.00",
-			Expected: -1 * USD_DOLLAR,
+			Expected: money.USDDollars(-1),
 		},
 
 
 
 		{
 			String:   "$2.00",
-			Expected: 2 * USD_DOLLAR,
+			Expected: money.USDDollars(2),
 		},
 		{
 			String:   "2.00",
-			Expected: 2 * USD_DOLLAR,
+			Expected: money.USDDollars(2),
 		},
 		{
 			String:   "-$2.00",
-			Expected: -2 * USD_DOLLAR,
+			Expected: money.USDDollars(-2),
 		},
 		{
 			String:   "-2.00",
-			Expected: -2 * USD_DOLLAR,
+			Expected: money.USDDollars(-2),
 		},
 
 
 
 		{
 			String:   "$3.00",
-			Expected: 3 * USD_DOLLAR,
+			Expected: money.USDDollars(3),
 		},
 		{
 			String:   "3.00",
-			Expected: 3 * USD_DOLLAR,
+			Expected: money.USDDollars(3),
 		},
 		{
 			String:   "-$3.00",
-			Expected: -3 * USD_DOLLAR,
+			Expected: money.USDDollars(-3),
 		},
 		{
 			String:   "-3.00",
-			Expected: -3 * USD_DOLLAR,
+			Expected: money.USDDollars(-3),
 		},
 
 
 
 		{
 			String:   "$4.00",
-			Expected: 4 * USD_DOLLAR,
+			Expected: money.USDDollars(4),
 		},
 		{
 			String:   "4.00",
-			Expected: 4 * USD_DOLLAR,
+			Expected: money.USDDollars(4),
 		},
 		{
 			String:   "-$4.00",
-			Expected: -4 * USD_DOLLAR,
+			Expected: money.USDDollars(-4),
 		},
 		{
 			String:   "-4.00",
-			Expected: -4 * USD_DOLLAR,
+			Expected: money.USDDollars(-4),
 		},
 
 
 
 		{
 			String:   "$5.00",
-			Expected: 5 * USD_DOLLAR,
+			Expected: money.USDDollars(5),
 		},
 		{
 			String:   "5.00",
-			Expected: 5 * USD_DOLLAR,
+			Expected: money.USDDollars(5),
 		},
 		{
 			String:   "-$5.00",
-			Expected: -5 * USD_DOLLAR,
+			Expected: money.USDDollars(-5),
 		},
 		{
 			String:   "-5.00",
-			Expected: -5 * USD_DOLLAR,
+			Expected: money.USDDollars(-5),
 		},
 
 
 
 		{
 			String:   "$10.00",
-			Expected: 10 * USD_DOLLAR,
+			Expected: money.USDDollars(10),
 		},
 		{
 			String:   "10.00",
-			Expected: 10 * USD_DOLLAR,
+			Expected: money.USDDollars(10),
 		},
 		{
 			String:   "-$10.00",
-			Expected: -10 * USD_DOLLAR,
+			Expected: money.USDDollars(-10),
 		},
 		{
 			String:   "-10.00",
-			Expected: -10 * USD_DOLLAR,
+			Expected: money.USDDollars(-10),
 		},
 
 
 
 		{
 			String:   "$862.49",
-			Expected:  86249 * USD_CENT,
+			Expected: money.USDCanonicalForm(862,49),
 		},
 		{
 			String:   "862.49",
-			Expected:  86249 * USD_CENT,
+			Expected: money.USDCanonicalForm(862,49),
 		},
 		{
 			String:   "-$862.49",
-			Expected:  -86249 * USD_CENT,
+			Expected: money.USDCanonicalForm(-862,-49),
 		},
 		{
 			String:   "-862.49",
-			Expected:  -86249 * USD_CENT,
+			Expected: money.USDCanonicalForm(-862,-49),
 		},
-        
-        {
-            String:   "$0.3",
-            Expected: 30 * USD_CENT,
-        },
-        {
-            String:   "0.3",
-            Expected: 30 * USD_CENT,
-        },
-        {
-            String:   "-$0.3",
-            Expected: -30 * USD_CENT,
-        },
-        {
-            String:   "-0.3",
-            Expected: -30 * USD_CENT,
-        },
-        {
-            String:   "$30.0",
-            Expected: 30 * USD_DOLLAR,
-        },
-        {
-            String:   "-$40.0",
-            Expected: -40 * USD_DOLLAR,
-        },
-        {
-            String:   "2342343.4",
-            Expected: (2342343 * USD_DOLLAR) + (40 * USD_CENT),
-        },
-        {
-            String:   "34,3",
-            Expected: (34 * USD_DOLLAR) + (30 * USD_CENT),
-        },
 
-        {
-            String:   ".21",
-            Expected: (2 * USD_DIME) + (1 * USD_CENT),
-        },
-        {
-            String:   "-.21",
-            Expected: -((2 * USD_DIME) + (1 * USD_CENT)),
-        },
-        {
-            String:   ".2",
-            Expected: (2 * USD_DIME),
-        },
-        {
-            String:   "-.2",
-            Expected: -(2 * USD_DIME),
-        },
 
-        {
-            String:   ",21",
-            Expected: (2 * USD_DIME) + (1 * USD_CENT),
-        },
-        {
-            String:   "-,21",
-            Expected: -((2 * USD_DIME) + (1 * USD_CENT)),
-        },
-        {
-            String:   ",2",
-            Expected: (2 * USD_DIME),
-        },
-        {
-            String:   "-,2",
-            Expected: -(2 * USD_DIME),
-        },
-        
+
+		{
+			String:   "$0.3",
+			Expected: money.USDCents(30),
+		},
+		{
+			String:   "0.3",
+			Expected: money.USDCents(30),
+		},
+		{
+			String:   "-$0.3",
+			Expected: money.USDCents(-30),
+		},
+		{
+			String:   "-0.3",
+			Expected: money.USDCents(-30),
+		},
+
+
+
+		{
+			String:   "$30.0",
+			Expected: money.USDDollars(30),
+		},
+		{
+			String:   "-$40.0",
+			Expected: money.USDDollars(-40),
+		},
+		{
+			String:   "2342343.4",
+			Expected: money.USDCanonicalForm(2342343,40),
+		},
+		{
+			String:   "34,3",
+			Expected: money.USDCanonicalForm(34,30),
+		},
+
+
+
+		{
+			String:   ".21",
+			Expected: money.USDCents(21),
+		},
+		{
+			String:   "-.21",
+			Expected: money.USDCents(-21),
+		},
+		{
+			String:   ".2",
+			Expected: money.USDCents(20),
+		},
+		{
+			String:   "-.2",
+			Expected: money.USDCents(-20),
+		},
+
+
+
+		{
+			String:   ",21",
+			Expected: money.USDCents(21),
+		},
+		{
+			String:   "-,21",
+			Expected: money.USDCents(-21),
+		},
+		{
+			String:   ",2",
+			Expected: money.USDCents(20),
+		},
+		{
+			String:   "-,2",
+			Expected: money.USDCents(-20),
+		},
 	}
-
 
 	for testNumber, test := range tests {
 
-		actual, err := ParseUSD(test.String)
+		actual, err := money.ParseUSD(test.String)
 		if nil != err {
 			t.Errorf("For test #%d, received unexpected error: %v", testNumber, err)
+			continue
 		}
 
 		if expected := test.Expected; expected != actual {
-			t.Errorf("For test #%d, parsed %q, expected %q but actually got %q.", testNumber, test.String, expected, actual)
+			t.Errorf("For test #%d, the actual value, from parsing, is not what was expected.", testNumber)
+			t.Logf("STRING: %q", test.String)
+			t.Logf("EXPECTED: %q (%#v)", expected, expected)
+			t.Logf("ACTUAL:   %q (%#v)", actual, actual)
+			continue
 		}
 	}
 }
